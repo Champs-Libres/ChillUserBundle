@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    
+    <title>{{ installation.name }}{% block title %}{% endblock %}</title>
+    
+    {% stylesheets  output="css/all.css" filter="cssrewrite"
+          "bundles/clchillmain/css/gumby.css"
+          "bundles/clchillmain/css/chillmain.css"
+          "bundles/clchillmain/js/lib_jquery_ui_pickadate/jquery-ui-1.10.3.pickadate.css" %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+    
+    {% block css%}<!-- nothing added to css -->{% endblock %}
+
+    {% javascripts output="js/libs.js"
+        "bundles/clchillmain/js/modernizr-2.6.2.min.js"
+        "bundles/clchillmain/js/jquery-2.0.2.min.js"
+        "bundles/clchillmain/js/gumby.js"
+        "bundles/clchillmain/js/gumby.init.js" 
+        "bundles/clchillmain/js/ui/*.js"
+        "bundles/clchillmain/js/lib_jquery_ui_pickadate/jquery-ui-1.10.3.pickadate.js" %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}    
+
+    <script type="text/javascript">
+      $.datepicker.regional[ "fr" ]
+      $(document).ready(function() {
+          $('.datepicker').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: 'dd-mm-yy'
+          }, $.datepicker.regional["fr"]);
+      });
+    {% block js%}<!-- nothing added to js -->{% endblock %}
+    </script>
+    
+</head>
+
+<body>
+    
+    
+    {# Flash messages ! 
+    
+    {% if (app.session.flashbag.get('success').length > 0 
+         OR app.session.flashbag.get('danger').length > 0 
+         OR app.session.flashbag.get('info').length > 0 ) %}#}
+    
+        
+        <div class="row">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                {{ 'views.User.layout.logged_in_as'|trans({'%username%': app.user.username}) }} |
+                <a href="{{ path('fos_user_security_logout') }}">
+                    {{ 'views.User.layout.logout'|trans({}) }}
+                </a>
+            {% else %}
+                <a href="{{ path('fos_user_security_login') }}">{{ 'views.User.layout.login'|trans({}) }}</a>
+            {% endif %}
+        </div>
+    
+    <div class="row">
+
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for key, message in messages %}
+                <div class="flash-notice warning centered six columns">
+                    {{ message|trans({}, 'FOSUserBundle') }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        
+        
+        
+    </div>
+   {# {% endif %} #}
+    
+    <div class="row" style="margin-top: 30px;">
+        <div id="wrapper" style="">
+
+                {% block fos_user_content %}{% endblock fos_user_content%}
+
+        </div>
+    </div>
+
+
+</body>
+
+
+</html>

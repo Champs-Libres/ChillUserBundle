@@ -1,0 +1,9 @@
+parameters:
+#    cl_chill_user.example.class: CL\Chill\UserBundle\Example
+
+services:
+    chill_user.registration.form.type:
+        class: CL\Chill\UserBundle\Form\RegistrationFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: chill_user_registration }

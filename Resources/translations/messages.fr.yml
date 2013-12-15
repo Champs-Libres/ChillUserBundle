@@ -1,0 +1,11 @@
+views:
+    User:
+        layout:
+            login: Se connecter
+            logout: Se déconnecter
+            logged_in_as: Connecté en tant que %username%
+            
+form:
+    User:
+        registration:
+            name: Nom à afficher
